@@ -6,22 +6,22 @@ A distributed implementation of the Fair Farthest-First Traversal (FairFFT) algo
 
 ### Overview
 
-Standard $k$-center clustering algorithms (such as Gonzalez's Farthest-First Traversal) select cluster centers based purely on geometric distance, often leading to under-representation of sensitive protected groups. 
+Standard k-center clustering algorithms (such as Gonzalez's Farthest-First Traversal) select cluster centers based purely on geometric distance, often leading to under-representation of sensitive protected groups. 
 
-This project implements a two-round MapReduce framework (**MRFairFFT**) to solve the $k$-center problem with exact demographic representation constraints:
+This project implements a two-round MapReduce framework (**MRFairFFT**) to solve the k-center problem with exact demographic representation constraints:
 * Points belong to demographic groups (e.g., Label `A` or `B`).
-* The user specifies the exact quota of centers to extract from each group ($k_A$ and $k_B$).
+* The user specifies the exact quota of centers to extract from each group (k_A and k_B).
 * The pipeline scales horizontally across Spark partitions using a coreset-based approach, bounding the maximum clustering radius while preserving fairness guarantees.
 
 ---
 
 ### Key Components
 
-* **`FairFFT` (Sequential Algorithm):** An adapted Farthest-First Traversal heuristic that enforces group capacities ($k_A, k_B$). It greedily picks the farthest point from the current set of centers that does not violate the remaining group quotas.
+* **`FairFFT` (Sequential Algorithm):** An adapted Farthest-First Traversal heuristic that enforces group capacities (k_A, k_B). It greedily picks the farthest point from the current set of centers that does not violate the remaining group quotas.
 * **`MRFairFFT` (Distributed MapReduce):**
-  * **Round 1 (Local Coreset Extraction):** Spark partitions run `FairFFT` in parallel via `mapPartitions`, extracting $2k_A$ and $2k_B$ candidate representatives per partition.
-  * **Round 2 (Global Consolidation):** The driver collects all local candidate centers and runs a final `FairFFT` pass to extract the exact $k_A + k_B$ centers.
-* **`objective_funct`:** Computes the global $k$-center objective ($r(S) = \max_{u \in U} \min_{c \in S} dist(u, c)$) in parallel across the entire dataset.
+  * **Round 1 (Local Coreset Extraction):** Spark partitions run `FairFFT` in parallel via `mapPartitions`, extracting 2k_A and 2k_B candidate representatives per partition.
+  * **Round 2 (Global Consolidation):** The driver collects all local candidate centers and runs a final `FairFFT` pass to extract the exact k_A + k_B centers.
+* **`objective_funct`:** Computes the global k-center objective in parallel across the entire dataset.
 
 ---
 
