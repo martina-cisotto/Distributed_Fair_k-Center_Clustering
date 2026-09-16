@@ -35,6 +35,8 @@ The script expects a comma-separated values (CSV) file without headers. Each row
 9.10,1.15,0.02,A
 ```
 
+---
+
 ### Requirements
 
 * Python 3.8+
@@ -45,6 +47,8 @@ Install dependencies:
 pip install pyspark
 ```
 
+---
+
 ### Execution
 
 Run the script via `spark-submit`:
@@ -53,12 +57,15 @@ Run the script via `spark-submit`:
 spark-submit main.py <file_path> <kA> <kB> <L>
 ```
 
+---
+
 ### Arguments
 * ⁠`file_path`: Path to the input dataset file.
 * ⁠`kA`: Number of centers required from group ⁠`A`⁠.
 * `kB`: Number of centers required from group ⁠`B`⁠.
 * `L`⁠: Number of Spark partitions.
 
+---
 
 ### Sample Output
 * `file_path` = points.csv, `kA` = 5, `kB` = 5, `L` = 16
