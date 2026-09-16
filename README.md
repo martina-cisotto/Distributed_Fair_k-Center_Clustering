@@ -33,3 +33,38 @@ The script expects a comma-separated values (CSV) file without headers. Each row
 1.23,4.56,7.89,A
 0.45,2.11,3.32,B
 9.10,1.15,0.02,A
+
+
+### Requirements
+
+* Python 3.8+
+* Apache Spark (PySpark) 3.x
+
+Install dependencies:
+```bash
+pip install pyspark
+
+
+### Execution
+
+Run the script via `spark-submit`:
+
+```bash
+spark-submit main.py <file_path> <kA> <kB> <L>
+
+
+### Arguments
+ ⁠<file_path>⁠: Path to the input dataset file.
+ ⁠<kA>⁠: Number of centers required from group ⁠A⁠.
+ ⁠<kB>⁠: Number of centers required from group ⁠B⁠.
+ ⁠<L>⁠: Number of Spark partitions.
+
+
+### Sample Output
+File path = points.csv, KA = 5, KB = 5, L = 16
+N = 100000, NA = 60000, NB = 40000
+Center = [12.4,5.1,1.9] Label = A
+Center = [-2.1,8.3,0.4] Label = B
+...
+Objective function = 3.482104
+Running time of MRFairFFT = 1420 ms
