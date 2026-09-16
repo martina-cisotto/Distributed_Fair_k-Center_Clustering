@@ -1,6 +1,6 @@
 # Distributed Fair k-Center Clustering with PySpark
 
-A distributed implementation of the Fair Farthest-First Traversal (FairFFT) algorithm for the $k$-center clustering problem under group fairness constraints, built on Apache Spark.
+A distributed implementation of the Fair Farthest-First Traversal (FairFFT) algorithm for the k-center clustering problem under group fairness constraints, built on Apache Spark.
 
 ---
 
@@ -10,17 +10,17 @@ Standard k-center clustering algorithms (such as Gonzalez's Farthest-First Trave
 
 This project implements a two-round MapReduce framework (**MRFairFFT**) to solve the k-center problem with exact demographic representation constraints:
 * Points belong to demographic groups (e.g., Label `A` or `B`).
-* The user specifies the exact quota of centers to extract from each group (k_A and k_B).
+* The user specifies the exact quota of centers to extract from each group (`kA` and `kB`).
 * The pipeline scales horizontally across Spark partitions using a coreset-based approach, bounding the maximum clustering radius while preserving fairness guarantees.
 
 ---
 
 ### Key Components
 
-* **`FairFFT` (Sequential Algorithm):** An adapted Farthest-First Traversal heuristic that enforces group capacities (k_A, k_B). It greedily picks the farthest point from the current set of centers that does not violate the remaining group quotas.
+* **`FairFFT` (Sequential Algorithm):** An adapted Farthest-First Traversal heuristic that enforces group capacities (`kA`, `kB`). It greedily picks the farthest point from the current set of centers that does not violate the remaining group quotas.
 * **`MRFairFFT` (Distributed MapReduce):**
-  * **Round 1 (Local Coreset Extraction):** Spark partitions run `FairFFT` in parallel via `mapPartitions`, extracting 2k_A and 2k_B candidate representatives per partition.
-  * **Round 2 (Global Consolidation):** The driver collects all local candidate centers and runs a final `FairFFT` pass to extract the exact k_A + k_B centers.
+  * **Round 1 (Local Coreset Extraction):** Spark partitions run `FairFFT` in parallel via `mapPartitions`, extracting `2kA` and `2kB` candidate representatives per partition.
+  * **Round 2 (Global Consolidation):** The driver collects all local candidate centers and runs a final `FairFFT` pass to extract the exact `kA + kB` centers.
 * **`objective_funct`:** Computes the global k-center objective in parallel across the entire dataset.
 
 ---
@@ -55,14 +55,14 @@ spark-submit main.py <file_path> <kA> <kB> <L>
 
 ### Arguments
 * ⁠`file_path`: Path to the input dataset file.
-* ⁠`kA`: Number of centers required from group ⁠A⁠.
-* `kB`: Number of centers required from group ⁠B⁠.
+* ⁠`kA`: Number of centers required from group ⁠`A`⁠.
+* `kB`: Number of centers required from group ⁠`B`⁠.
 * `L`⁠: Number of Spark partitions.
 
 
 ### Sample Output
-* File path = points.csv, KA = 5, KB = 5, L = 16
-* N = 100000, NA = 60000, NB = 40000
+* `file_path` = points.csv, `kA` = 5, `kB` = 5, `L` = 16
+* `N` = 100000, `NA` = 60000, `NB` = 40000
 * Center = [12.4,5.1,1.9] Label = `A`
 * Center = [-2.1,8.3,0.4] Label = `B`
 * Objective function = 3.482104
