@@ -33,7 +33,7 @@ The script expects a comma-separated values (CSV) file without headers. Each row
 1.23,4.56,7.89,A
 0.45,2.11,3.32,B
 9.10,1.15,0.02,A
-
+```
 
 ### Requirements
 
@@ -43,7 +43,7 @@ The script expects a comma-separated values (CSV) file without headers. Each row
 Install dependencies:
 ```bash
 pip install pyspark
-
+```
 
 ### Execution
 
@@ -51,7 +51,7 @@ Run the script via `spark-submit`:
 
 ```bash
 spark-submit main.py <file_path> <kA> <kB> <L>
-
+```
 
 ### Arguments
  ⁠<file_path>⁠: Path to the input dataset file.
